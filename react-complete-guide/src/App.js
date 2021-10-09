@@ -11,7 +11,10 @@ class App extends Component{
       {name : 'Manu', age: 29},
       {name : 'Stephanie', age: 27}
     ],
-    otherState: 'some other value'
+    users: [
+      {username: 'twilight00'},
+      {username: 'newm00n'}
+    ] 
   }
 
 
@@ -22,7 +25,7 @@ switchNameHandler = (newName) => { //es un método de la clase. Le asignamos una
       {name: newName, age: 28},
       {name: 'Manu', age: 29},
       {name: 'Stephanie', age: 27}
-    ] 
+    ]
   })
 }
 
@@ -38,17 +41,27 @@ nameChangeHandler = (event) => { //Añadimos la palabra Handler como convención
 
   render () {
 
-    const style = {
+    const buttonStyle = { //es complicado hacer que cambie el hovering con los inline styles, y hay aún más restricciones
       backgroundColor: 'white',
+      marginBottom: '16px',
       font: 'inherit',
-      border: '1x solid blue',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
     };
-    
+
     return (
+
       <div className="App">
+
         <h1>Hi, I'm a React App</h1>
         <p>This is really working!</p>
-        <button onClick={this.switchNameHandler.bind(this,'Ultimate Manuel')}>Switch Name</button>
+
+        <button 
+          style={buttonStyle}
+          onClick={this.switchNameHandler.bind(this,'Ultimate Manuel')}>
+          Switch Name</button>
+
         <Person 
           name={this.state.persons[0].name} 
           age={this.state.persons[0].age} />
@@ -60,6 +73,7 @@ nameChangeHandler = (event) => { //Añadimos la palabra Handler como convención
         <Person 
           name={this.state.persons[2].name} 
           age={this.state.persons[2].age} />
+
       </div>
     )
   }
