@@ -11,12 +11,9 @@ class App extends Component{
       {name : 'Manu', age: 29},
       {name : 'Stephanie', age: 27}
     ],
-    users: [
-      {username: 'twilight00'},
-      {username: 'newm00n'}
-    ] 
-  }
+    showPersons: false
 
+  }
 
 switchNameHandler = (newName) => { //es un método de la clase. Le asignamos una función para que se convierta en un método. 
   this.setState ({ //el this.setState solo se usa en estos componentes de tipo class.
@@ -39,6 +36,11 @@ nameChangeHandler = (event) => { //Añadimos la palabra Handler como convención
   })
 }
 
+togglePersonsHandler = () => {
+  const doesShow = this.state.showPersons;
+  this.setState({showPersons: !doesShow});
+}
+
   render () {
 
     const buttonStyle = { //es complicado hacer que cambie el hovering con los inline styles, y hay aún más restricciones
@@ -50,29 +52,44 @@ nameChangeHandler = (event) => { //Añadimos la palabra Handler como convención
       cursor: 'pointer'
     };
 
+    let persons = null;
+    if(this.state.showPersons){
+      persons = (
+        <div>
+          {this.state.persons.map(person => { //usamos map para hacer el loop con los componentes
+            return <Person
+            name= {person.name}
+            age= {person.age}/>
+          })}
+
+          {/* <Person //ESTO ES COMO LO HACÍAMOS ANTES
+            name={this.state.persons[0].name} 
+            age={this.state.persons[0].age} /> */}
+          </div> 
+      );
+    }
+
     return (
-
       <div className="App">
-
         <h1>Hi, I'm a React App</h1>
         <p>This is really working!</p>
-
         <button 
-          style={buttonStyle}
-          onClick={this.switchNameHandler.bind(this,'Ultimate Manuel')}>
-          Switch Name</button>
+        style={buttonStyle}
+        onClick={this.switchNameHandler.bind(this,'Ultimate Manuel')}>Switch Name</button>
+        <button 
+        style={buttonStyle}
+        onClick={this.togglePersonsHandler}> Mostrar personas 
+        </button>
+        {persons} {/*Manera elegante de retornar los componentes Persona*/}
 
+        {/* { this.state.showPersons ? //OTRA MANERA DE HACER LOS CONDICIONALES: si esta expresión está a true, 
+        renderiza lo que hay detrás del ?
+        <div>
         <Person 
           name={this.state.persons[0].name} 
           age={this.state.persons[0].age} />
-        <Person 
-          name={this.state.persons[1].name} 
-          age={this.state.persons[1].age}
-          click={()=>this.switchNameHandler('Esto es un nuevo nombre')} 
-          changed={this.nameChangeHandler} />
-        <Person 
-          name={this.state.persons[2].name} 
-          age={this.state.persons[2].age} />
+        </div> : null //si es false, no hagas nada
+        } */}
 
       </div>
     )
